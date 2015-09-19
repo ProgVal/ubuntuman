@@ -18,7 +18,6 @@
 
 from supybot.test import *
 
-UbuntuMan = plugin.loadPluginModule('UbuntuMan')
 UMConf = conf.supybot.plugins.UbuntuMan
 
 class UbuntuManTestCase(PluginTestCase):
@@ -42,6 +41,8 @@ class UbuntuManTestCase(PluginTestCase):
 
     def testLanguages(self):
         for s in ('en', 'es', 'de', 'it', 'fr'):
+            self.assertNotError('man ls --lang %s' % s)
+            self.assertNotError('man bash --lang %s' % s)
             self.assertNotRegexp('man ls --lang %s' % s, '^Failed to parse')
             self.assertNotRegexp('man bash --lang %s' % s, '^Failed to parse')
         self.assertNotRegexp('man su --lang fi', '^Failed to parse')

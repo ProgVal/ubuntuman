@@ -75,6 +75,8 @@ class UbuntuManParser:
             section = (section, )
         while True:
             ln = fd.readline()
+            if sys.version_info[0] >= 3:
+                ln = ln.decode(errors='ignore')
             if not ln:
                 raise UbuntuManError('Section %s not found.' % \
                         ', '.join(section))
@@ -83,6 +85,8 @@ class UbuntuManParser:
                 idx = ln.find(tag)
                 if idx > -1:
                     ln = fd.readline()
+                    if sys.version_info[0] >= 3:
+                        ln = ln.decode(errors='ignore')
                     ln = utils.web.htmlToText(ln, tagReplace='')
                     ln = utils.str.normalizeWhitespace(ln)
                     return ln
@@ -104,6 +108,8 @@ class UbuntuManParser:
         description = self.skipToSection(fd, section)
         while len(description) < 300:
             ln = fd.readline()
+            if sys.version_info[0] >= 3:
+                ln = ln.decode(errors='ignore')
             if not ln or ln.startswith(' </pre>') or len(ln) == 0:
                 break
             if ln.endswith('\xe2\x80\x90\x0a'):
@@ -164,6 +170,8 @@ class UbuntuManParser_de(UbuntuManParser):
         section = 'BERSICHT'
         while True:
             ln = fd.readline()
+            if sys.version_info[0] >= 3:
+                ln = ln.decode(errors='ignore')
             if not ln:
                 raise UbuntuManError('Section %s not found.' % section)
             tag = section
@@ -326,7 +334,7 @@ class UbuntuMan(callbacks.Plugin):
             fd.close()
             msg = self.__formatReply()
             irc.reply(msg)
-        except UbuntuManError, e:
+        except UbuntuManError as e:
             irc.reply('Failed to parse the manpage for \'%s\': %s' % (command,
                 e.message))
             self.log.info(
