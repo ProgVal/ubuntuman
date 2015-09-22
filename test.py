@@ -50,6 +50,7 @@ class UbuntuManTestCase(PluginTestCase):
         #self.assertNotRegexp('man aptitude --lang fi', '^Failed to parse')
 
     def testFormat(self):
+        self.assertRegexp('man irssi', 'extensible and') # \n -> space
         cmd = 'grep'
         confbak = conf.supybot.plugins.UbuntuMan.format()
         try:

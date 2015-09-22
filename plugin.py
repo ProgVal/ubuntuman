@@ -115,9 +115,9 @@ class UbuntuManParser:
             if ln.endswith('\xe2\x80\x90\x0a'):
                 description += ln[:len(ln) - 4]
             else:
-                description = '%s%s ' %(description, ln.strip())
+                description = '%s %s' %(description, ln.strip())
         description = utils.web.htmlToText(description, tagReplace='')
-        description = utils.web.normalizeWhitespace(description)
+        description = utils.str.normalizeWhitespace(description)
         idx = description[:150].rfind('.')
         if idx < 1:
             description = cut(description, 150)
